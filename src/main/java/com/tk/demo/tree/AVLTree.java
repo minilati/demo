@@ -1,33 +1,20 @@
 package com.tk.demo.tree;
 
-public class BinarySortTree {
+public class AVLTree {
     private Node root;
 
     public static void main(String[] args) {
-        int[] arr = {7, 3, 10, 12, 5, 1, 9, 2};
-        BinarySortTree binarySortTree = new BinarySortTree();
-        //循环的添加结点
+        //int[] arr = {4,3,6,5,7,8};
+        //int[] arr = {10,12,8,9,7,6};
+        int[] arr = {10,11,7,6,8,9};
+        AVLTree avlTree = new AVLTree();
+        //循环添加结点
         for (int value : arr) {
-            binarySortTree.add(new Node(value));
+            avlTree.add(new Node(value));
         }
-
-        //中序遍历二叉排序树
-        binarySortTree.infixOrder();// 1, 3, 5, 7, 9, 10, 12
-
-        //测试一下删除叶子结点
-        binarySortTree.delNode(12);
-        binarySortTree.delNode(5);
-        binarySortTree.delNode(10);
-        binarySortTree.delNode(2);
-        binarySortTree.delNode(3);
-        binarySortTree.delNode(9);
-        binarySortTree.delNode(1);
-        binarySortTree.delNode(7);
-
-        System.out.println("\n删除结点后");
-        binarySortTree.infixOrder();
+        avlTree.infixOrder();
+        System.out.println("\n树高:"+avlTree.root.height()+"，左子树高:"+avlTree.root.leftHeight()+"，右子树高:"+avlTree.root.rightHeight());
     }
-
 
     //删除结点
     public void delNode(int value) {
@@ -117,4 +104,3 @@ public class BinarySortTree {
         }
     }
 }
-
