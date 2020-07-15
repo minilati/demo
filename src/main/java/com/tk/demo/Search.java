@@ -12,11 +12,12 @@ public class Search {
         System.out.println(fibSearch(arr, 99));
     }
 
-    //二分法查找
+    //二分法查找(插值查找)
     private static ArrayList<Integer> binarySearch(int[] arr, int left, int right, int val) {
         if (left > right || val < arr[0] || val > arr[arr.length - 1]) {
             return new ArrayList<>();
         }
+        //int mid = (left + right) / 2;
         int mid = left + (right - left) * (val - arr[left]) / (arr[right] - arr[left]);
         if (val < arr[mid]) {
             return binarySearch(arr, left, mid - 1, val);
@@ -40,7 +41,7 @@ public class Search {
         int left = 0;
         int right = arr.length - 1;
         int k = 0;
-        int mid = 0;
+        int mid;
         int[] f = fib();
 
         while (right > f[k] - 1) {
@@ -59,12 +60,13 @@ public class Search {
             } else if (val > temp[mid]) {
                 left = mid + 1;
                 k -= 2;
-            }else{
+            } else {
                 return mid;
             }
         }
         return -1;
     }
+
     public static int[] fib() {
         int maxSize = 20;
         int[] f = new int[maxSize];

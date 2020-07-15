@@ -1,11 +1,5 @@
 package com.tk.demo.tree;
 
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Stack;
-
 //二叉树
 public class BinaryTree {
     public static void main(String[] args) {
