@@ -1,13 +1,12 @@
-package com.tk.demo.topic;
+package com.tk.demo.algorithm;
 
 import java.util.Arrays;
 
-public class TestKMP {
+public class KMP {
     public static void main(String[] args) {
-        String t = "ababvbaa9abababcabababcaadaabababcababsdbababca";
-        String s = "abababca";
-        int[] next = new int[s.length()];
-        getNext(s, next);
+        String t = "ababvbaa9abababcabababcabcdabdabcababsdbababca";
+        String s = "acabaca";
+        int[] next = getNext(s);
         int i = kmp(t, s, next);
 
         System.out.println(Arrays.toString(next));
@@ -27,13 +26,15 @@ public class TestKMP {
                 j = next[j];
         }
 
-        if (j == p.length)
+        if (j == p.length) {
             return i - j;
-        else
+        } else {
             return -1;
+        }
     }
 
-    public static void getNext(String s, int[] next) {
+    public static int[] getNext(String s) {
+        int[] next = new int[s.length()];
         char[] p = s.toCharArray();
         next[0] = -1;
 
@@ -47,6 +48,7 @@ public class TestKMP {
                 j = next[j];
             }
         }
+        return next;
     }
 
 }

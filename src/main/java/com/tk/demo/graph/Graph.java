@@ -82,6 +82,7 @@ public class Graph {
         }
     }
 
+    //获取该节点的第一个联结节点
     public int getFirst(int i) {
         for (int j = 0; j < vertexList.size(); j++) {
             if (edges[i][j] == 1)
@@ -90,6 +91,7 @@ public class Graph {
         return -1;
     }
 
+    //获取该节点已联结节点的下一个联结节点
     public int getNext(int v1, int v2) {
         for (int i = v2 + 1; i < vertexList.size(); i++) {
             if (edges[v1][i] == 1)

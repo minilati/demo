@@ -1,4 +1,4 @@
-package com.tk.demo.topic;
+package com.tk.demo.algorithm;
 
 import java.util.Arrays;
 
