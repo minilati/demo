@@ -9,11 +9,11 @@ public class BinaryTree {
         TreeNode node4 = new TreeNode(4, "d");
         TreeNode node5 = new TreeNode(5, "e");
         TreeNode node6 = new TreeNode(6, "f");
-        node1.setLeft(node2);
-        node1.setRight(node3);
-        node2.setLeft(node4);
-        node2.setRight(node5);
-        node3.setLeft(node6);
+        node1.left = node2;
+        node1.right = node3;
+        node2.left = node4;
+        node2.right = node5;
+        node3.left = node6;
 
         BinaryTree binaryTree = new BinaryTree();
         System.out.println("\npreorder:");
@@ -26,34 +26,34 @@ public class BinaryTree {
 
     //前序遍历二叉树
     public void preorder(TreeNode node) {
-        System.out.print(node.getId() + ",");
-        if (node.getLeft() != null) {
-            preorder(node.getLeft());
+        System.out.print(node.id + ",");
+        if (node.left != null) {
+            preorder(node.left);
         }
-        if (node.getRight() != null) {
-            preorder(node.getRight());
+        if (node.right != null) {
+            preorder(node.right);
         }
     }
 
     //中序遍历二叉树
     public void inorder(TreeNode node) {
-        if (node.getLeft() != null) {
-            inorder(node.getLeft());
+        if (node.left != null) {
+            inorder(node.left);
         }
-        System.out.print(node.getId() + ",");
-        if (node.getRight() != null) {
-            inorder(node.getRight());
+        System.out.print(node.id + ",");
+        if (node.right != null) {
+            inorder(node.right);
         }
     }
 
     //后序遍历二叉树
     public void postorder(TreeNode node) {
-        if (node.getLeft() != null) {
-            postorder(node.getLeft());
+        if (node.left != null) {
+            postorder(node.left);
         }
-        System.out.print(node.getId() + ",");
-        if (node.getRight() != null) {
-            postorder(node.getRight());
+        System.out.print(node.id + ",");
+        if (node.right != null) {
+            postorder(node.right);
         }
     }
 }

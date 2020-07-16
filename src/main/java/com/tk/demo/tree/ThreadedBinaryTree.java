@@ -19,17 +19,17 @@ class ThreadedBinaryTree {
         TreeNode node10 = new TreeNode(10, "j");
         TreeNode node11 = new TreeNode(11, "k");
         TreeNode node12 = new TreeNode(12, "l");
-        node1.setLeft(node2);
-        node1.setRight(node3);
-        node2.setLeft(node4);
-        node2.setRight(node5);
-        node3.setLeft(node6);
-        node3.setRight(node7);
-        node4.setLeft(node8);
-        node4.setRight(node9);
-        node5.setLeft(node10);
-        node5.setRight(node11);
-        node6.setLeft(node12);
+        node1.left=(node2);
+        node1.right=(node3);
+        node2.left=(node4);
+        node2.right=(node5);
+        node3.left=(node6);
+        node3.right=(node7);
+        node4.left=(node8);
+        node4.right=(node9);
+        node5.left=(node10);
+        node5.right=(node11);
+        node6.left=(node12);
 
         ThreadedBinaryTree threadedBinaryTree = new ThreadedBinaryTree();
         //threadedBinaryTree.preThreaded(node1);
@@ -44,23 +44,23 @@ class ThreadedBinaryTree {
     public void preThreaded(TreeNode node) {
         if (node == null) return;
         //线索化当前节点
-        if (node.getLeft() == null) {
-            node.setLeft(pre);
-            node.setLeftType(1);
+        if (node.left == null) {
+            node.left=(pre);
+            node.leftType=1;
         }
-        if (pre != null && pre.getRight() == null) {
-            pre.setRight(node);
-            pre.setRightType(1);
+        if (pre != null && pre.right == null) {
+            pre.right=(node);
+            pre.rightType=1;
         }
         //线索完当前节点后，将该节点置为前驱节点
         pre = node;
         //线索化左子树
-        if (node.getLeftType() == 0) {
-            preThreaded(node.getLeft());
+        if (node.leftType == 0) {
+            preThreaded(node.left);
         }
         //线索化右子树
-        if (node.getRightType() == 0) {
-            preThreaded(node.getRight());
+        if (node.rightType == 0) {
+            preThreaded(node.right);
         }
     }
 
@@ -69,19 +69,19 @@ class ThreadedBinaryTree {
         System.out.print("\npreThreaded:");
         while (node != null) {
 
-            System.out.print(node.getId() + ",");
+            System.out.print(node.id + ",");
             //遍历直到找到线索化节点
-            while (node.getLeftType() == 0) {
-                node = node.getLeft();
-                System.out.print(node.getId() + ",");
+            while (node.leftType == 0) {
+                node = node.left;
+                System.out.print(node.id + ",");
             }
             //输出后续所有线索化节点
-            while (node.getRightType() == 1) {
-                node = node.getRight();
-                System.out.print(node.getId() + ",");
+            while (node.rightType == 1) {
+                node = node.right;
+                System.out.print(node.id + ",");
             }
             //指向下一个左子节点（最后一个节点则停止）
-            node = node.getLeftType() == 0 ? node.getLeft() : null;
+            node = node.leftType == 0 ? node.left : null;
         }
     }
 
@@ -89,20 +89,20 @@ class ThreadedBinaryTree {
     public void inThreaded(TreeNode node) {
         if (node == null) return;
         //线索化左子树
-        inThreaded(node.getLeft());
+        inThreaded(node.left);
         //线索化当前节点
-        if (node.getLeft() == null) {
-            node.setLeft(pre);
-            node.setLeftType(1);
+        if (node.left == null) {
+            node.left=(pre);
+            node.leftType=1;
         }
-        if (pre != null && pre.getRight() == null) {
-            pre.setRight(node);
-            pre.setRightType(1);
+        if (pre != null && pre.right == null) {
+            pre.right=(node);
+            pre.rightType=1;
         }
         //线索完当前节点后，将该节点置为前驱节点
         pre = node;
         //线索化右子树
-        inThreaded(node.getRight());
+        inThreaded(node.right);
     }
 
     //中序遍历线索化二叉树
@@ -110,16 +110,16 @@ class ThreadedBinaryTree {
         System.out.print("\ninThreaded:");
         while (node != null) {
             //找到线索化节点
-            while (node.getLeftType() == 0) {
-                node = node.getLeft();
+            while (node.leftType == 0) {
+                node = node.left;
             }
-            System.out.print(node.getId() + ",");
+            System.out.print(node.id + ",");
             //输出后续所有线索化节点
-            while (node.getRightType() == 1) {
-                node = node.getRight();
-                System.out.print(node.getId() + ",");
+            while (node.rightType == 1) {
+                node = node.right;
+                System.out.print(node.id + ",");
             }
-            node = node.getRight();
+            node = node.right;
         }
     }
 
@@ -128,18 +128,18 @@ class ThreadedBinaryTree {
         if (node == null) return;
 
         //线索化左子树
-        postThreaded(node.getLeft());
+        postThreaded(node.left);
         //线索化右子树
-        postThreaded(node.getRight());
+        postThreaded(node.right);
 
         //线索化当前节点
-        if (node.getLeft() == null) {
-            node.setLeft(pre);
-            node.setLeftType(1);
+        if (node.left == null) {
+            node.left=(pre);
+            node.leftType=1;
         }
-        if (pre != null && pre.getRight() == null) {
-            pre.setRight(node);
-            pre.setRightType(1);
+        if (pre != null && pre.right == null) {
+            pre.right=(node);
+            pre.rightType=1;
         }
         //线索完当前节点后，将该节点置为前驱节点
         pre = node;
@@ -152,23 +152,23 @@ class ThreadedBinaryTree {
         while (node != null) {
             //倒序从最右开始找
             //遍历直到找到线索化节点
-            while (node.getRightType() == 0) {
-                //System.out.print(node.getId() + ",");
-                stack.push(node.getId());
-                node = node.getRight();
+            while (node.rightType == 0) {
+                //System.out.print(node.id + ",");
+                stack.push(node.id);
+                node = node.right;
             }
-            //System.out.print(node.getId() + ",");
-            stack.push(node.getId());
+            //System.out.print(node.id + ",");
+            stack.push(node.id);
             //输出后续所有线索化节点
-            while (node.getLeftType() == 1 && node.getLeft() != null) {
-                node = node.getLeft();
-                //System.out.print(node.getId() + ",");
-                stack.push(node.getId());
+            while (node.leftType == 1 && node.left != null) {
+                node = node.left;
+                //System.out.print(node.id + ",");
+                stack.push(node.id);
             }
-            if (node.getRightType() == 1) {
-                node = node.getLeft();
-            } else if (node.getRightType() == 0) {
-                node = node.getRight();
+            if (node.rightType == 1) {
+                node = node.left;
+            } else if (node.rightType == 0) {
+                node = node.right;
             }
         }
         while (!stack.isEmpty()) {
