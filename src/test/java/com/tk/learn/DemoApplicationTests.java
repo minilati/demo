@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 
 @SpringBootTest
 class DemoApplicationTests {
-
     //记录器
     Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -22,7 +21,4 @@ class DemoApplicationTests {
         logger.warn("这是warn日志...");
         logger.error("这是error日志...");
     }
-
-
-
 }
