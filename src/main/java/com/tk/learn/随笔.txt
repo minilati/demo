@@ -185,20 +185,50 @@ public A getA(){return a;}	//对外暴露获取对象方法
 将实现与抽象分离，使他们可以独立改变。将继承关系转换成关联关系，降低耦合度。
 
 装饰者模式
+一个主类(被装饰者)抽象类，多个主体实现类。
+一个装饰者抽象类继承主类，并将主类对象作为他的实例变量。(继承并组合主类)
+多个装饰者实现类继承装饰者抽象类，作为装饰者对象，在初始化装饰者对象时传入主类对象，多个装饰者则依次递归。(装饰者和主类实现的父类都是主类)
 不改变原有对象，动态地将功能加到对象上，比继承更有弹性，符合开闭原则。
-多个装饰者类实现一个装饰者抽象类，装饰者抽象类组合被装饰者并继承被装饰者类。
 
+组合模式
+非叶子节点和叶子节点实现统一接口，非叶子节点内组合该接口，并含有List作为内部属性存放非叶子和叶子节点对象。
+将对象组合成树形结构以表示部分-整体的层次结构。高层模块调用简单，节点自由增加。
+组合模式使得用户对单个对象和组合对象的使用具有一致性(都实现了统一接口)。
+需要较高抽象性，非叶子和叶子节点差异不能过大，违反依赖倒置原则。
 
+外观模式
+一个外观类，为用户提供统一的调用接口。
+多个子系统类，聚合到外观类中，将多个子系统操作方法放入一个外观类调用接口中。
+外观模式定义了一个高层接口，隐藏内部子系统细节，降低访问系统时的复杂度。
 
+享元模式
+一个享元角色接口，一个享元角色具体实现类，定义出对象内部状态和外部状态(内部状态可共享，外部状态不可共享)。
+一个享元工厂类，构建一个池容器(HashMap)，提供从池中获取享元对象的方法。
+减少对象的创建，减少内存占用并提高性能。提高了系统的复杂度，需要分离出外部状态和内部状态。
 
+代理模式
+1)静态代理
+需要目标类和代理类实现相同接口或继承共同父类。
+代理类组合目标类，通过调用目标对象的方法来实现代理。
+代理类需要与目标类实现一样的接口，可能会有很多代理类，新增方法两边都需要维护。
 
+2)JDK代理(接口代理)
+目标对象必须实现接口,利用JDK的API动态地在内存中构建代理对象。
+代理工厂类组合目标类，通过代理工厂来获取代理对象，java.lang.reflect.Proxy包中的newProxyInstance()可以获取代理对象。
+只需要传入目标类加载器，目标类实现接口，以及代理方法实现。
+方法实现中用method.invoke(obj,args)实现目标方法调用。(通过反射执行方法)
 
+3)CGLib
+目标对象不需要实现接口,通过在内存中构建增强子类重写目标类方法来实现代理。(代理类为增强子类)
+代理工厂类实现MethodInterceptor接口(导入cglib包)并重写intercept方法(方法拦截器)。
+代理工厂类提供获取增强子类对象的方法(创建Enhancer增强对象设置父类与回调函数并返回)。
+目标类不能为final，如果目标类中的方法为final/static，则不会被拦截。
+(FastClass机制：给每个方法编号，通过编号直接执行原类的方法，不用反射效率更高。)
 
-
-
-
-
-
+模板方法模式
+一个抽象类公开定义了模板方法(可实现可抽象)，不想被重写的模板方法可加final，多个子类可以按需重写方法，但调用将以抽象类中定义的方式进行。
+在抽象类中可以定义一个钩子方法，默认不做任何事，子类可以根据情况重写钩子方法，在抽象类的代码中可以根据钩子方法来选择不同的实现。
+统一了算法，也提供很大灵活性，一系列步骤基本相同时可用。
 
 
 
@@ -209,25 +239,51 @@ public A getA(){return a;}	//对外暴露获取对象方法
 
 
 JDK中RunTime类的单例模式就是饿汉式(静态常量)。
+
 JDK中Calendar，Logger类的对象创建就是简单工厂模式。
+
 Spring中getBean用到了原型模式。
+
 JDK中的StringBuilder用到了建造者模式。
 //StringBuilder指挥者，AbstractStringBuilder建造者实现，Appendable建造者接口。
+
 SpringMVC中的HandlerAdapter用到了适配器模式。
 //DispatcherServlet有一个List集合存放所有实现HandlerAdapter接口的适配器。
 //DispatcherServlet获取到handler后遍历List集合，调用每个适配器的support方法进行判断。
 //如果handler符合这个适配器(判断为真)，就返回该适配器，最后调用适配器的handle方法执行。
 //符合单一职责原则，迪米特法则，开闭原则。
+
 JDBC的DriverManager用到了桥接模式。
 //Driver就是接口，下面有MySQL，Oracle的Driver具体实现(实现层)。
 //DriverManager作为桥(抽象层)。Driver在初始化时会注册到DriverManager中。
 //JDBC定义了标准接口(Connection,Statement,ResultSet)，具体实现由各个数据库提供。
 //DriverManager关联这些接口实现，比如getConnection。(桥接模式的两个维度应该是数据库种类和操作数据的接口。)
 
+JDK中的IO用到了装饰者模式。
+//被装饰者抽象类：InputStream
+//被装饰者继承类：FileInputStream，ObjectInputStream，ByteArrayInputStream...
+//装饰者抽象类：FilterInputStream
+//装饰者继承类：DataInputStream，BufferedInputStream
 
+JDK中的HashMap用到了组合模式。
+//Map是抽象接口，AbstractMap抽象类实现Map接口，HashMap继承AbstractMap并实现Map。
+//HashMap就是非叶子节点，有put，putAll方法。
+//Node是HashMap的静态内部类，就是叶子节点，没有put，putAll方法。
 
+Mybatis中的Configuration用到了外观模式。
+//Configuration为外观类，创建MetaObject时他封装了内部实现细节，用户直接调用forObject就可以得到MetaObject对象。
+//DefaultObjectFactory，DefaultObjectWrapperFactory，DefaultReflectorFactory为子系统类，组合到Configuration中。
 
+JDK中Integer.valueOf()用到了享元模式。
+//Integer有一个静态内部类IntegerCache，有一个cache数组存放-128~127的整数。
+//如果Integer.valueOf(n)时n的范围在这之间，则直接返回cache数组中的对应值。
+//String常量池，数据库连接池，缓冲池等都用到了享元模式。
 
+Spring IOC容器初始化时用到了模板方法模式。
+//ConfigurableApplicationContext接口声明模板方法refresh()。
+//抽象类AbstractApplicationContext实现了接口，主要实现了模板方法refresh()。
+//声明了钩子方法postProcessBeanFactory()，onRefresh()，抽象方法getBeanFactory()，refreshBeanFactory()。
+//AbstractRefreshableApplicationContext，GenericApplicationContext子类实现抽象方法getBeanFactory()，refreshBeanFactory()。
 
 
 
