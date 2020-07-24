@@ -230,7 +230,11 @@ public A getA(){return a;}	//对外暴露获取对象方法
 在抽象类中可以定义一个钩子方法，默认不做任何事，子类可以根据情况重写钩子方法，在抽象类的代码中可以根据钩子方法来选择不同的实现。
 统一了算法，也提供很大灵活性，一系列步骤基本相同时可用。
 
-
+命令模式
+一个命令接口，声明执行与撤销方法。多个接收者类，里面实现真正的操作方法，并聚合到具体命令实现类。
+多个具体命令实现类实现该命令接口，重写执行与撤销方法。(重写方法中调用到真正执行操作的接收者方法)
+一个命令者类，命令接口聚合到命令者类中，一般维护一个命令集合，每个命令都是一个对象，可记录上一步命令以准备撤销。
+请求发送者调用命令者，命令者再调用请求接收者，将请求发送者与请求接收者解耦。但命令过多可能导致类爆炸。
 
 
 
@@ -284,6 +288,26 @@ Spring IOC容器初始化时用到了模板方法模式。
 //抽象类AbstractApplicationContext实现了接口，主要实现了模板方法refresh()。
 //声明了钩子方法postProcessBeanFactory()，onRefresh()，抽象方法getBeanFactory()，refreshBeanFactory()。
 //AbstractRefreshableApplicationContext，GenericApplicationContext子类实现抽象方法getBeanFactory()，refreshBeanFactory()。
+
+Spring的JdbcTemplate用到了命令模式。
+//JdbcTemplate为请求发送者，execute(StatementCallback<T> action)方法中，调用action.doInStatement()方法。
+//StatementCallback为命令接口(Command)，不同的类实现该接口，重写不同的doInStatement()方法。
+//匿名内部类QueryStatementCallback实现命令接口，重写了doInStatement()方法，该类也充当命令接收者。
+//实现命令接口的还有ExecuteStatementCallback，UpdateStatementCallback，BatchUpdateStatementCallback。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
