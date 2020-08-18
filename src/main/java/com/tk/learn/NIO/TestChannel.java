@@ -3,6 +3,7 @@ package com.tk.learn.NIO;
 import org.junit.Test;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
@@ -41,14 +42,13 @@ public class TestChannel {
     public void test1() {
         long start = System.currentTimeMillis();
         FileInputStream fis = null;
-        FileInputStream fos = null;
-        //获取通道
+        FileOutputStream fos = null;
         FileChannel inchannel = null;
         FileChannel outchannel = null;
         try {
-            fis = new FileInputStream("1.jpg");
-            fos = new FileInputStream("2.jpg");
-
+            fis = new FileInputStream("1.txt");
+            fos = new FileOutputStream("2.txt");
+            //获取通道
             inchannel = fis.getChannel();
             outchannel = fos.getChannel();
             //分配指定大小的缓冲区
@@ -73,16 +73,15 @@ public class TestChannel {
             }
         }
         long end = System.currentTimeMillis();
-        System.out.println(start - end);
+        System.out.println(end - start);
     }
 
     //2.使用直接缓冲区完成文件的复制(内存映射文件)
     @Test
     public void test2() throws Exception {
         long start = System.currentTimeMillis();
-
-        FileChannel inchannel = FileChannel.open(Paths.get("1.jpg"), StandardOpenOption.READ);
-        FileChannel outchannel = FileChannel.open(Paths.get("3.jpg"), StandardOpenOption.WRITE, StandardOpenOption.READ, StandardOpenOption.CREATE_NEW);
+        FileChannel inchannel = FileChannel.open(Paths.get("1.txt"), StandardOpenOption.READ);
+        FileChannel outchannel = FileChannel.open(Paths.get("2.txt"), StandardOpenOption.WRITE, StandardOpenOption.READ, StandardOpenOption.CREATE);
         //内存映射文件
         MappedByteBuffer inMappedBuf = inchannel.map(FileChannel.MapMode.READ_ONLY, 0, inchannel.size());
         MappedByteBuffer outMappedBuf = outchannel.map(FileChannel.MapMode.READ_WRITE, 0, inchannel.size());
@@ -95,14 +94,14 @@ public class TestChannel {
         inchannel.close();
         outchannel.close();
         long end = System.currentTimeMillis();
-        System.out.println(start - end);
+        System.out.println(end - start);
     }
 
     //通道之间的数据传输(非直接缓冲区)
     @Test
     public void test3() throws Exception {
-        FileChannel inchannel = FileChannel.open(Paths.get("1.jpg"), StandardOpenOption.READ);
-        FileChannel outchannel = FileChannel.open(Paths.get("3.jpg"), StandardOpenOption.WRITE, StandardOpenOption.READ, StandardOpenOption.CREATE_NEW);
+        FileChannel inchannel = FileChannel.open(Paths.get("1.txt"), StandardOpenOption.READ);
+        FileChannel outchannel = FileChannel.open(Paths.get("2.txt"), StandardOpenOption.WRITE, StandardOpenOption.READ, StandardOpenOption.CREATE);
 
         //inchannel.transferTo(0,inchannel.size(),outchannel);
         outchannel.transferFrom(inchannel, 0, inchannel.size());

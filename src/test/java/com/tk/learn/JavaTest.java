@@ -4,15 +4,31 @@ import org.junit.Test;
 import org.springframework.expression.Expression;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
-import java.io.*;
-import java.sql.Driver;
+
 import java.util.*;
 
 
 public class JavaTest{
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        while(sc.hasNext())
+        {
+            System.out.println(sc.next());
+        }
+        System.out.println("over");
+    }
+    @Test
+    public void test2() {
+        Scanner sc = new Scanner(System.in);
+        while(sc.hasNext())
+        {
+            System.out.println(sc.next());
+        }
+        System.out.println("over");
+    }
 
-
+    @Test
+    public void test1() {
         SpelExpressionParser ss = new SpelExpressionParser();
         Expression e = ss.parseExpression("1+2*3");
         Object value = e.getValue();
